@@ -25,4 +25,8 @@ hadoop fs -ls [-h] [-R] <path> -R表示递归查找子目录，-h表示人性化
 Yarn三大组件：ResourceManager（RM），NodeManager(NM)，ApplicationMaster(AM)。前两者是物理层面，第三者是App层面（告诉App应该做什么）  
 RM：主角色，统筹工作，是否允许资源  
 NM：从角色，本台机器资源管理  
-AM: 跟随程序出现，每一个程序都有一个AM  
+AM: 跟随程序出现，每一个程序都有一个AM，监督程序内部情况  
+yarn执行流程：  
+第一步： 客户端向RM提交申请  
+第二步： AM向RM提交资源申请  
+第三步： NM向RM汇报  
