@@ -20,5 +20,9 @@ hadoop fs -ls [-h] [-R] <path> -R表示递归查找子目录，-h表示人性化
 上传数据第一步：客户端创建 DistributedFileSystem对象，调用其中create方法，通过RPC请求，让NameNode创建文件。NameNode判断是否需要创建。如果通过，就返回FSDataOutputStream对象给客户端用于写数据  
 第二步：客户端将数据每64kb一组写入。 DataStreamer对象向NameNode申请三个副本地址，并且流式传输。并且反方向上进行数据校验。  
 第三步：传递完成后DistributedFileSystem向NameNode打招呼说传递完成，等待NameNode确认。只要一个副本传递成功，就算成功。  
-# MapReduce
-
+# Yarn
+相当于一个分布式操作系统，为不同程序调度CPU、内存  
+Yarn三大组件：ResourceManager（RM），NodeManager(NM)，ApplicationMaster(AM)。前两者是物理层面，第三者是App层面（告诉App应该做什么）  
+RM：主角色，统筹工作，是否允许资源  
+NM：从角色，本台机器资源管理  
+AM: 跟随程序出现，每一个程序都有一个AM  
