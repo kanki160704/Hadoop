@@ -38,4 +38,6 @@ hive 创建表格，在create语句写完后加入如下内容 row format delimi
 上传文件并且更新数据库：hadoop fs -put 1.txt /user/hive/warehouse/itheima.db/t_1，也可以使用load加载  
 Load规则：Load Data [Local] InPath <path> [Overwrite] into table <tableName>。这里本地指的是Hiveserver2服务机器所在的本地linux文件系统，不是Hive客户端本地文件系统。如果不写Local，则使用HDFS来加载。  
 Insert：如果使用标准SQL插入，那么底层会用MR程序执行，会非常耗时。  
-Insert 与 select 一起使用：例如 insert into table t_1 (select * from t_2)
+Insert 与 select 一起使用：例如 insert into table t_1 (select * from t_2)  
+Hive 函数的分类：普通函数（UDF，一进一出函数），聚合函数（UDAF，user defined aggregation function，多进一出），表生成函数（UDTF，user defined table generating function，一进多出）  
+
