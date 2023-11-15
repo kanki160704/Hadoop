@@ -40,4 +40,28 @@ Load规则：Load Data [Local] InPath <path> [Overwrite] into table <tableName>�
 Insert：如果使用标准SQL插入，那么底层会用MR程序执行，会非常耗时。  
 Insert 与 select 一起使用：例如 insert into table t_1 (select * from t_2)  
 Hive 函数的分类：普通函数（UDF，一进一出函数），聚合函数（UDAF，user defined aggregation function，多进一出），表生成函数（UDTF，user defined table generating function，一进多出）  
+Hive 内部表：删除后元数据，HDFS中数据都会被删除  
+Hive 外部表：create external table xxx。只有元数据会被删除，HDFS数据不会删除
+# Hive 与关系型数据库区别
+1. Hive数据量较大
+2. Hive读多写少，很少更新
+3. Hive没有索引，延迟较高。因为MR使用，也会导致延迟高。
+
+# Hive有哪些方式保存元数据，各有哪些特点？
+Hive支持三种不同的元存储服务器，分别为：内嵌式元存储服务器、本地元存储服务器、远程元存储服务器，每种存储方式使用不同的配置参数。  
+内嵌式元存储主要用于单元测试，在该模式下每次只有一个进程可以连接到元存储，Derby是内嵌式元存储的默认数据库。  
+在本地模式下，每个Hive客户端都会打开到数据存储的连接并在该连接上请求SQL查询。  
+在远程模式下，所有的Hive客户端都将打开一个到元数据服务器的连接，该服务器依次查询元数据，元数据服务器和客户端之间使用Thrift协议通信。  
+
+# 四个by区别
+order by：全局只有一个reducer  
+sort by：多个reducer，每个reducer内单独排序，最后不是全局排序的。sort by没有分区规则。  
+distribute by xxx：相同的xxx将会被分到同一个reducer，常与sort by联用  
+cluster by xxx：相当于 distribute by xxx sort by xxx
+
+# Hive 分区
+创建表的时候使用 partitioned by（xxx）语句，在导入文件插入数据库的时候使用 partition（xxx = yyy）语句。查找时加入分区字段过滤条件，就可以提高查找效率。 
+
+# 分桶表
+分区表针对路径进行分区，分桶表将一个文件拆分成多个。主要适用于抽样查询。  
 
