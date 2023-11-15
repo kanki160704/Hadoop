@@ -33,4 +33,9 @@ yarn执行流程：
 # Hive
 Hive 将文件映射成表格，包括哪个表格对应哪个文件，表的列对应哪个字段，文件字段之间分隔符是什么  
 用户写完SQL后，Hive判断SQL是否正确，并且解读SQL含义，转换为MR程序执行。即把SQL转化为MapReduce程序  
-
+新版本hive需要先启动 hiverserver2，再启动metestore，命令为 nohup /export/server/<hive>/bin/hive --service hiveserver2 &  
+hive 创建表格，在create语句写完后加入如下内容 row format delimited fields terminated by "\t"可以表明每一行数据是数据库中一行，并且以tab分割。  
+上传文件并且更新数据库：hadoop fs -put 1.txt /user/hive/warehouse/itheima.db/t_1，也可以使用load加载  
+Load规则：Load Data [Local] InPath <path> [Overwrite] into table <tableName>。这里本地指的是Hiveserver2服务机器所在的本地linux文件系统，不是Hive客户端本地文件系统。如果不写Local，则使用HDFS来加载。  
+Insert：如果使用标准SQL插入，那么底层会用MR程序执行，会非常耗时。  
+Insert 与 select 一起使用：例如 insert into table t_1 (select * from t_2)
